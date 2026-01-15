@@ -16,7 +16,7 @@ A modern web application for rating and reviewing games, built with a Node.js ba
 
 ### Backend
 - **Node.js** with Express.js
-- **SQLite** database
+- **MongoDB** database
 - **JWT** authentication
 - **bcryptjs** for password hashing
 - **Multer** for file uploads
@@ -140,7 +140,8 @@ Create a `.env` file in the server directory:
 PORT=3001
 NODE_ENV=development
 JWT_SECRET=your-super-secret-jwt-key
-DB_PATH=./database.sqlite
+USE_MONGO=true
+MONGODB_URI=mongodb://localhost:27017/gamerate
 UPLOAD_DIR=./uploads
 MAX_FILE_SIZE=5242880
 RATE_LIMIT_WINDOW_MS=900000
@@ -148,7 +149,7 @@ RATE_LIMIT_MAX_REQUESTS=100
 ```
 
 ### Database
-The application uses SQLite for data storage. The database file will be created automatically when you first start the server.
+The application uses MongoDB for data storage. Ensure MongoDB is running and accessible.
 
 ## Development
 
