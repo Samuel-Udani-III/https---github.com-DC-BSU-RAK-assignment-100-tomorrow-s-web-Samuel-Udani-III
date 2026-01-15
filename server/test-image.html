@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Image</title>
+</head>
+<body>
+    <h1>Test Image Serving</h1>
+    <p>If you can see the image below, static file serving is working:</p>
+    <img src="/uploads/test.txt" alt="Test" style="max-width: 200px;">
+    
+    <h2>Test with a real image:</h2>
+    <p>Upload a simple image file (like a screenshot) and test it here:</p>
+    <form action="/api/games" method="POST" enctype="multipart/form-data">
+        <input type="file" name="image" accept="image/*" required>
+        <input type="text" name="title" placeholder="Game Title" required>
+        <input type="text" name="genre" placeholder="Genre" required>
+        <button type="submit">Upload Test</button>
+    </form>
+</body>
+</html>

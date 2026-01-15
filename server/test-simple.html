@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Image Test</title>
+</head>
+<body>
+    <h1>Image Test</h1>
+    
+    <h2>Test 1: Direct Image Access</h2>
+    <p>Try this image URL directly in a new tab:</p>
+    <a href="http://localhost:3001/uploads/game-1760302986247-526162631.jpg" target="_blank">
+        http://localhost:3001/uploads/game-1760302986247-526162631.jpg
+    </a>
+    
+    <h2>Test 2: Image in Page</h2>
+    <img src="http://localhost:3001/uploads/game-1760302986247-526162631.jpg" 
+         alt="Test Image" 
+         style="max-width: 300px; border: 1px solid #ccc;"
+         onerror="console.error('Image failed to load')"
+         onload="console.log('Image loaded successfully')">
+    
+    <h2>Test 3: Alternative Route</h2>
+    <a href="http://localhost:3001/api/test-image/game-1760302986247-526162631.jpg" target="_blank">
+        Test via API route
+    </a>
+    
+    <script>
+        console.log('Page loaded, testing image...');
+    </script>
+</body>
+</html>

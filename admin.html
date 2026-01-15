@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Admin · GameRate</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a href="index.html" class="brand">Game<span>Rate</span></a>
+        <div class="login-btn" data-auth-cta></div>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="intro">
+        <h1>Admin dashboard</h1>
+        <p>Add new games and images. Only admins can access this page.</p>
+      </section>
+
+      <section class="auth-card">
+        <h3 style="margin-top:0">Site banner (visible on home page)</h3>
+        <form class="auth-form" id="site-banner-form">
+          <label>
+            <span>Upload site banner</span>
+            <input type="file" name="banner" accept="image/*" />
+          </label>
+          <div class="form-actions">
+            <button type="button" class="btn primary" id="upload-banner-btn">Upload banner</button>
+            <button type="button" class="btn danger" id="remove-banner-btn" style="margin-left:10px">Remove banner</button>
+          </div>
+          <div class="muted small" id="banner-note">Recommended size: 1200×360px.</div>
+        </form>
+        <form class="auth-form" data-add-game-form>
+          <div data-form-error class="form-error" style="display:none;"></div>
+          <label>
+            <span>Title</span>
+            <input type="text" name="title" placeholder="Game title" required />
+          </label>
+          <label>
+            <span>Genre</span>
+            <input type="text" name="genre" placeholder="e.g., RPG • Cozy" required />
+          </label>
+          <label>
+            <span>Cover image</span>
+            <input type="file" name="image" accept="image/*" />
+          </label>
+          <label>
+            <span>Description</span>
+            <textarea name="description" rows="4" placeholder="Enter a detailed description of the game..."></textarea>
+          </label>
+          <div class="form-actions">
+            <button type="submit" class="btn primary">Add game</button>
+            <a class="btn ghost" href="index.html">Back</a>
+          </div>
+          <div class="muted small" data-form-notice></div>
+        </form>
+      </section>
+
+      <section class="game-grid" aria-label="All games" data-game-grid></section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p>© <span id="y"></span> GameRate. Demo UI only.</p>
+      </div>
+    </footer>
+
+    <script>
+      (function(){ var el = document.getElementById('y'); if (el) el.textContent = new Date().getFullYear(); })();
+    </script>
+    <script src="api-client.js"></script>
+    <script src="app-api.js"></script>
+  </body>
+  </html>
+
+
+
