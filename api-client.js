@@ -195,6 +195,46 @@ class PRGAPI {
     return data;
   }
 
+  async uploadLeftBanner(file) {
+    if (!file) {
+      throw new Error('No banner file provided');
+    }
+    const formData = new FormData();
+    formData.append('banner', file);
+    const response = await fetch(`${this.baseURL}/site/banner/left`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${this.token}`
+      },
+      body: formData
+    });
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.error || `HTTP ${response.status}`);
+    }
+    return data;
+  }
+
+  async uploadRightBanner(file) {
+    if (!file) {
+      throw new Error('No banner file provided');
+    }
+    const formData = new FormData();
+    formData.append('banner', file);
+    const response = await fetch(`${this.baseURL}/site/banner/right`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${this.token}`
+      },
+      body: formData
+    });
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.error || `HTTP ${response.status}`);
+    }
+    return data;
+  }
+
   async updateGame(id, title, genre, imageFile, description) {
     const formData = new FormData();
     formData.append('title', title);

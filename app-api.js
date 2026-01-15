@@ -29,6 +29,7 @@
       currentUserCache = null;
     }
     await renderSiteBanner();
+    await renderSideBanners();
   }
 
   async function renderSiteBanner() {
@@ -48,6 +49,26 @@
     } catch (err) {
       console.warn('Failed to load site banner', err && err.message);
       container.innerHTML = '';
+    }
+  }
+
+  async function renderSideBanners() {
+    try {
+      const site = await api.getSite();
+      
+      // Left banner
+      const leftContainer = document.querySelector('.left-border');
+      if (leftContainer && site && site.leftBannerUrl) {
+        leftContainer.style.backgroundImage = `url("${site.leftBannerUrl}")`;
+      }
+      
+      // Right banner
+      const rightContainer = document.querySelector('.right-border');
+      if (rightContainer && site && site.rightBannerUrl) {
+        rightContainer.style.backgroundImage = `url("${site.rightBannerUrl}")`;
+      }
+    } catch (err) {
+      console.warn('Failed to load side banners', err && err.message);
     }
   }
 
@@ -577,6 +598,46 @@
     });
   }
 
+  function wireLeftBannerUploader() {
+    const uploadBtn = document.getElementById('upload-left-banner-btn');
+    if (!uploadBtn) return;
+    uploadBtn.addEventListener('click', async function(){
+      const form = document.getElementById('left-banner-form');
+      if (!form) return;
+      const input = form.querySelector('input[name="banner"]');
+      if (!input || !input.files || !input.files[0]) { alert('Choose an image first'); return; }
+      const file = input.files[0];
+      try {
+        await api.uploadLeftBanner(file);
+        form.reset();
+        alert('Left banner uploaded!');
+        await renderSideBanners();
+      } catch (err) {
+        alert(err.message || 'Failed to upload banner');
+      }
+    });
+  }
+
+  function wireRightBannerUploader() {
+    const uploadBtn = document.getElementById('upload-right-banner-btn');
+    if (!uploadBtn) return;
+    uploadBtn.addEventListener('click', async function(){
+      const form = document.getElementById('right-banner-form');
+      if (!form) return;
+      const input = form.querySelector('input[name="banner"]');
+      if (!input || !input.files || !input.files[0]) { alert('Choose an image first'); return; }
+      const file = input.files[0];
+      try {
+        await api.uploadRightBanner(file);
+        form.reset();
+        alert('Right banner uploaded!');
+        await renderSideBanners();
+      } catch (err) {
+        alert(err.message || 'Failed to upload banner');
+      }
+    });
+  }
+
   // Page boot
   document.addEventListener('DOMContentLoaded', async function(){
     // play entrance animation
@@ -676,6 +737,8 @@
     });
 
     wireBannerUploader();
+    wireLeftBannerUploader();
+    wireRightBannerUploader();
 
     // Animated navigation for game cards: play exit animation, then navigate
     document.body.addEventListener('click', function(e){
