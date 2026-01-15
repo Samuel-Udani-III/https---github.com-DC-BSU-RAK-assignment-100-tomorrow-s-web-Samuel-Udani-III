@@ -1,4 +1,4 @@
-// API Client for GameRate Backend
+// API Client for P.R.G. Backend
 // Replaces localStorage functionality with HTTP API calls
 
 const DEFAULT_LOCAL_API = 'http://localhost:3001/api';
@@ -31,10 +31,10 @@ function detectApiBase() {
   return normalizeBase(DEFAULT_LOCAL_API);
 }
 
-class GameRateAPI {
+class PRGAPI {
   constructor(baseURL) {
     this.baseURL = normalizeBase(baseURL) || detectApiBase();
-    this.token = localStorage.getItem('gamerate_token');
+    this.token = localStorage.getItem('prg_token');
   }
 
   setBaseURL(baseURL) {
@@ -80,7 +80,7 @@ class GameRateAPI {
     });
     
     this.token = response.token;
-    localStorage.setItem('gamerate_token', this.token);
+    localStorage.setItem('prg_token', this.token);
     return response.user;
   }
 
@@ -91,7 +91,7 @@ class GameRateAPI {
     });
     
     this.token = response.token;
-    localStorage.setItem('gamerate_token', this.token);
+    localStorage.setItem('prg_token', this.token);
     return response.user;
   }
 
@@ -103,7 +103,7 @@ class GameRateAPI {
     }
     
     this.token = null;
-    localStorage.removeItem('gamerate_token');
+    localStorage.removeItem('prg_token');
   }
 
   async getCurrentUser() {

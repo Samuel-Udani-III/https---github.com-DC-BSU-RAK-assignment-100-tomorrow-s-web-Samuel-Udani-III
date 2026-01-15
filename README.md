@@ -1,4 +1,4 @@
-# GameRate - Full Stack Game Rating Platform
+# P.R.G. - Players Rate Games
 
 A modern web application for rating and reviewing games, built with a Node.js backend and vanilla JavaScript frontend.
 
@@ -141,7 +141,7 @@ PORT=3001
 NODE_ENV=development
 JWT_SECRET=your-super-secret-jwt-key
 USE_MONGO=true
-MONGODB_URI=mongodb://localhost:27017/gamerate
+MONGODB_URI=mongodb://localhost:27017/prg
 UPLOAD_DIR=./uploads
 MAX_FILE_SIZE=5242880
 RATE_LIMIT_WINDOW_MS=900000

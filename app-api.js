@@ -1,5 +1,5 @@
 (function(){
-  const api = window.GameRateAPI;
+  const api = window.PRGAPI;
 
   // Clear legacy localStorage keys from the old local-only client
   try {
@@ -695,7 +695,7 @@
   });
 
   // Expose minimal API for debugging (optional)
-  window.GameRate = {
+  window.PRG = {
     listGames,
     addGame,
     deleteGame,

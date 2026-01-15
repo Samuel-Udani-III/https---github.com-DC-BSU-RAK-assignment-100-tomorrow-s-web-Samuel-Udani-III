@@ -14,7 +14,7 @@ async function init() {
 		// Remove deprecated options for MongoDB driver >= 4.x
 		client = new MongoClient(config.mongoUri);
 		await client.connect();
-		// If a database name is provided in the URI, client.db() will use it; otherwise use 'gamerate'
+		// If a database name is provided in the URI, client.db() will use it; otherwise use 'prg'
 		db = client.db();
 		console.log('Connected to MongoDB:', config.mongoUri);
 	} catch (err) {

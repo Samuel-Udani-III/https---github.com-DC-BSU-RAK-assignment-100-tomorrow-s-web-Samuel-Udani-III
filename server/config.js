@@ -15,7 +15,7 @@ module.exports = {
 };
 
 
-module.exports.mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/gamerate';
+module.exports.mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/prg';
 // Default to using MongoDB unless explicitly disabled
 module.exports.useMongo = (process.env.USE_MONGO ? (process.env.USE_MONGO === 'true') : true);
 

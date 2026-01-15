@@ -1,7 +1,7 @@
 {
-  "name": "gamerate-backend",
+  "name": "prg-backend",
   "version": "1.0.0",
-  "description": "Backend API for GameRate application",
+  "description": "Backend API for P.R.G. application",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
