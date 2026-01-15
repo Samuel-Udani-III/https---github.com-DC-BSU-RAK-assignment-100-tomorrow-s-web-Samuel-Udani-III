@@ -301,5 +301,5 @@ class PRGAPI {
 }
 
 // Create global API instance
-window.GameRateAPI = new GameRateAPI();
+window.PRGAPI = new PRGAPI();
 
