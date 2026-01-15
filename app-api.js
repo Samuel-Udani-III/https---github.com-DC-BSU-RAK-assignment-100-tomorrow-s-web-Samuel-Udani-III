@@ -638,6 +638,40 @@
     });
   }
 
+  function setupSmoothNavigation() {
+    // Intercept all internal navigation links
+    document.addEventListener('click', function(e) {
+      const link = e.target.closest('a[href]');
+      if (!link) return;
+
+      const href = link.getAttribute('href');
+      if (!href) return;
+
+      // Only intercept internal links (not external or hash links)
+      if (href.startsWith('http') || href.startsWith('#') || href.includes('://')) return;
+
+      // Prevent default navigation
+      e.preventDefault();
+
+      // Add visual feedback to the clicked link
+      link.classList.add('navigating');
+
+      // Show loading overlay
+      const overlay = document.querySelector('.page-transition-overlay');
+      if (overlay) {
+        overlay.classList.add('show');
+      }
+
+      // Add exit animation
+      document.body.classList.add('page-exit-active');
+
+      // Wait for animation to complete, then navigate
+      setTimeout(function() {
+        window.location.href = href;
+      }, 320); // Match the CSS transition duration
+    });
+  }
+
   // Page boot
   document.addEventListener('DOMContentLoaded', async function(){
     // play entrance animation
@@ -647,6 +681,9 @@
       document.body.classList.add('page-enter-active');
       document.body.classList.remove('page-enter');
     });
+
+    // Intercept navigation links for smooth transitions
+    setupSmoothNavigation();
 
     await bootstrap();
     await renderHeaderAuthState();

@@ -263,11 +263,81 @@ input, button { font: inherit; }
 .snackbar.show { display: inline-flex; }
 
 /* Page transition animations */
-body.page-enter { opacity: 0; transform: translateY(6px); }
-body.page-enter-active { opacity: 1; transform: none; transition: opacity .36s ease, transform .36s ease; }
+body.page-enter {
+  opacity: 0;
+  transform: translateY(12px) scale(0.98);
+}
+body.page-enter-active {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  transition: opacity .42s cubic-bezier(0.34, 1.56, 0.64, 1), transform .42s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
 
-body.page-exit-active { opacity: 0; transform: translateY(-6px); transition: opacity .28s ease, transform .28s ease; }
+body.page-exit-active {
+  opacity: 0;
+  transform: translateY(-8px) scale(0.98);
+  transition: opacity .32s cubic-bezier(0.4, 0, 1, 1), transform .32s cubic-bezier(0.4, 0, 1, 1);
+}
+
+/* Navigation loading overlay */
+.page-transition-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(11, 16, 32, 0.8);
+  backdrop-filter: blur(2px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.page-transition-overlay.show {
+  display: flex;
+}
+
+.transition-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(124, 156, 255, 0.3);
+  border-top: 3px solid var(--brand);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Navigation link feedback */
+a.navigating {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+/* Smooth transitions for all elements */
+* {
+  transition: background-color .2s ease, border-color .2s ease, color .2s ease;
+}
+
+/* Enhanced card hover effects */
+.card-link {
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.card-link:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+}
 
 /* Small click/tap effect on card images when navigating */
-.card-link img { transition: transform .28s ease, filter .2s ease; }
-.card-link.animating img { transform: scale(1.04); filter: brightness(.98); }
+.card-link img {
+  transition: transform .28s ease, filter .2s ease, box-shadow .2s ease;
+}
+.card-link.animating img {
+  transform: scale(1.04);
+  filter: brightness(.98);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+}
