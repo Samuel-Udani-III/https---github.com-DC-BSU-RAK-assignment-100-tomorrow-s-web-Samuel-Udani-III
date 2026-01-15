@@ -48,22 +48,30 @@ A modern web application for rating and reviewing games, built with a Node.js ba
 ## Setup Instructions
 
 ### Prerequisites
-- Node.js (v14 or higher)
-- npm or yarn
+- Node.js (v14 or higher) and npm (for local development)
+- Docker and Docker Compose (for containerized deployment)
 
-### Backend Setup
+## Setup Instructions
 
-1. **Navigate to the server directory:**
+### Option 1: Local Development
+
+#### Backend Setup
+
+1. **Install MongoDB:**
+   - Download and install MongoDB Community Server from [mongodb.com](https://www.mongodb.com/try/download/community)
+   - Or use Docker: `docker run -d -p 27017:27017 --name mongodb mongo:6.0`
+
+2. **Navigate to the server directory:**
    ```bash
    cd server
    ```
 
-2. **Install dependencies:**
+3. **Install dependencies:**
    ```bash
    npm install
    ```
 
-3. **Start the server:**
+4. **Start the server:**
    ```bash
    # Development mode (with auto-restart)
    npm run dev
@@ -74,7 +82,7 @@ A modern web application for rating and reviewing games, built with a Node.js ba
 
    The server will start on `http://localhost:3001`
 
-### Frontend Setup
+#### Frontend Setup
 
 1. **Open the frontend files in a web server:**
    
@@ -100,10 +108,78 @@ A modern web application for rating and reviewing games, built with a Node.js ba
    - Frontend: `http://localhost:8000`
    - Backend API: `http://localhost:3001/api`
 
-## Default Admin Account
+### Option 2: Docker Deployment
+
+1. **Ensure Docker and Docker Compose are installed**
+
+2. **Build and start the services:**
+   ```bash
+   docker-compose up --build
+   ```
+
+   This will:
+   - Start MongoDB on port 27017
+   - Build and start the Node.js server on port 3001
+   - Start Nginx frontend server on port 8080
+   - Create persistent volumes for database and uploads
+
+3. **Access the application:**
+   - Full application: `http://localhost:8080`
+   - Backend API: `http://localhost:3001/api`
+
+### Default Admin Account
 
 - **Email:** admin@example.com
 - **Password:** admin123
+
+This account is created automatically on first startup.
+
+## Docker Commands
+
+### Starting Services
+```bash
+# Start in foreground
+docker-compose up
+
+# Start in background
+docker-compose up -d
+
+# Build and start
+docker-compose up --build
+```
+
+### Stopping Services
+```bash
+# Stop services
+docker-compose down
+
+# Stop and remove volumes
+docker-compose down -v
+```
+
+### Viewing Logs
+```bash
+# View all logs
+docker-compose logs
+
+# View server logs
+docker-compose logs server
+
+# Follow logs
+docker-compose logs -f server
+```
+
+### Database Management
+```bash
+# Access MongoDB shell
+docker-compose exec mongo mongo prg
+
+# Backup database
+docker-compose exec mongo mongodump --db prg --out /backup
+
+# Restore database
+docker-compose exec mongo mongorestore /backup/prg
+```
 
 ## API Endpoints
 
