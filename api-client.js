@@ -22,6 +22,10 @@ function detectApiBase() {
     }
 
     if (/localhost|127\.0\.0\.1/i.test(origin)) {
+      // If served by Nginx on port 8080, use relative API path
+      if (window.location.port === '8080') {
+        return '/api';
+      }
       return normalizeBase(DEFAULT_LOCAL_API);
     }
 

@@ -108,6 +108,32 @@ A modern web application for rating and reviewing games, built with a Node.js ba
    - Frontend: `http://localhost:8000`
    - Backend API: `http://localhost:3001/api`
 
+### Quick Start (Simplified - 1 Container):
+
+1. **Start MongoDB in Docker**:
+   ```bash
+   docker-compose up -d
+   ```
+
+2. **Run the backend locally**:
+   ```bash
+   cd server
+   npm run dev
+   ```
+
+3. **Serve the frontend locally**:
+   - **VS Code Live Server**: Right-click `index.html` → "Open with Live Server" (port 5500)
+   - **Python**: `python -m http.server 8000`
+   - **Node.js**: `npx http-server -p 8000`
+
+4. **Access the application**:
+   - Frontend: `http://localhost:5500` (or your chosen port)
+   - Backend API: `http://localhost:3001/api`
+
+5. **Admin login**:
+   - Email: `admin@example.com`
+   - Password: `admin123`
+
 ### Option 2: Docker Deployment
 
 1. **Ensure Docker and Docker Compose are installed**
