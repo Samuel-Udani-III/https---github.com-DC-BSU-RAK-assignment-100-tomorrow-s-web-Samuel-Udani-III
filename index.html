@@ -27,7 +27,6 @@
       <section class="intro">
         <h1>Discover and rate your favorite games</h1>
         <p>Browse trending titles and leave a 1–5 star rating.</p>
-        <p style="color: red; font-weight: bold;" id="url-check"></p>
       </section>
 
       <section class="game-grid" aria-label="Game list" data-game-grid></section>
@@ -43,15 +42,7 @@
       (function(){
         var el = document.getElementById('y');
         if (el) el.textContent = new Date().getFullYear();
-        
-        var urlEl = document.getElementById('url-check');
-        if (urlEl) {
-          if (window.location.protocol === 'file:') {
-            urlEl.textContent = 'WARNING: You are opening this file directly. Please access http://localhost:8080 instead.';
-          } else {
-            urlEl.textContent = 'URL: ' + window.location.href;
-          }
-        }
+
       })();
     </script>
     <script src="api-client.js"></script>
