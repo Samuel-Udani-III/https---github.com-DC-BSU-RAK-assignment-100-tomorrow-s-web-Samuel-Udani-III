@@ -95,6 +95,11 @@ app.get('/api/health', (req, res) => {
   });
 });
 
+// Expose server config (such as default model) to clients
+app.get('/api/config', (req, res) => {
+  res.json({ defaultModel: config.defaultModel, useMongo: !!config.useMongo });
+});
+
 // Debug all requests
 app.use((req, res, next) => {
   console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
@@ -194,7 +199,12 @@ app.use((error, req, res, next) => {
   });
 });
 
-// 404 handler
+// Serve index.html for all non-API routes
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'index.html'));
+});
+
+// 404 handler for API routes
 app.use('*', (req, res) => {
   res.status(404).json({ error: 'Endpoint not found' });
 });
@@ -251,7 +261,13 @@ async function startServer() {
 
 startServer();
 
-// Expose server config (such as default model) to clients
-app.get('/api/config', (req, res) => {
-  res.json({ defaultModel: config.defaultModel, useMongo: !!config.useMongo });
+// Global error handlers to prevent server crashes
+process.on('uncaughtException', (error) => {
+  console.error('Uncaught Exception:', error);
+  // Don't exit the process, just log the error
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+  // Don't exit the process, just log the error
 });

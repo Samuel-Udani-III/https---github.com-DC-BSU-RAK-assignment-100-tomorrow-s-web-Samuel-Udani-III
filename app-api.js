@@ -30,6 +30,8 @@
     }
     await renderSiteBanner();
     await renderSideBanners();
+    await updateSideStats();
+    await updateTopGames();
   }
 
   async function renderSiteBanner() {
@@ -55,20 +57,71 @@
   async function renderSideBanners() {
     try {
       const site = await api.getSite();
-      
+
       // Left banner
-      const leftContainer = document.querySelector('.left-border');
+      const leftContainer = document.getElementById('left-banner-display');
       if (leftContainer && site && site.leftBannerUrl) {
         leftContainer.style.backgroundImage = `url("${site.leftBannerUrl}")`;
       }
-      
+
       // Right banner
-      const rightContainer = document.querySelector('.right-border');
+      const rightContainer = document.getElementById('right-banner-display');
       if (rightContainer && site && site.rightBannerUrl) {
         rightContainer.style.backgroundImage = `url("${site.rightBannerUrl}")`;
       }
     } catch (err) {
       console.warn('Failed to load side banners', err && err.message);
+    }
+  }
+
+  async function updateSideStats() {
+    try {
+      const games = await api.listGames();
+      const totalGamesEl = document.getElementById('total-games');
+      if (totalGamesEl) {
+        totalGamesEl.textContent = games.length;
+      }
+
+      // Count total reviews across all games
+      let totalReviews = 0;
+      for (const game of games) {
+        try {
+          const reviews = await api.listReviews(game.id);
+          totalReviews += reviews.length;
+        } catch (e) {
+          // Skip games that fail to load reviews
+        }
+      }
+
+      const totalReviewsEl = document.getElementById('total-reviews');
+      if (totalReviewsEl) {
+        totalReviewsEl.textContent = totalReviews;
+      }
+    } catch (err) {
+      console.warn('Failed to update side stats', err && err.message);
+    }
+  }
+
+  async function updateTopGames() {
+    try {
+      const games = await api.listGames();
+      // Sort by average rating (descending) and take top 5
+      const topGames = games
+        .filter(game => game.avgRating && game.avgRating > 0)
+        .sort((a, b) => (b.avgRating || 0) - (a.avgRating || 0))
+        .slice(0, 5);
+
+      const topGamesEl = document.getElementById('top-games');
+      if (topGamesEl && topGames.length > 0) {
+        topGamesEl.innerHTML = topGames.map(game => `
+          <li>
+            <a href="game.html?id=${game.id}">${game.title}</a>
+            <span class="rating">${(game.avgRating || 0).toFixed(1)}</span>
+          </li>
+        `).join('');
+      }
+    } catch (err) {
+      console.warn('Failed to update top games', err && err.message);
     }
   }
 
@@ -179,19 +232,26 @@
   async function renderGamesGrid() {
     const grid = document.querySelector('[data-game-grid]');
     if (!grid) return;
-    
+
+    // Show loading state
+    grid.classList.add('loading');
+    grid.innerHTML = '';
+
     try {
       const games = await listGames();
       const user = await getCurrentUser();
       const isAdmin = !!user && user.role === 'admin';
-      
+
+      // Remove loading state
+      grid.classList.remove('loading');
+
       grid.innerHTML = games.map(function(g) {
         const safeTitle = g.title.replace(/</g, '&lt;');
         const safeGenre = g.genre.replace(/</g, '&lt;');
         const avg = g.avgRating || 0;
         const reviewCount = g.reviewCount || 0;
         const reviewText = reviewCount ? (avg.toFixed(1) + ' / 5 • ' + reviewCount + ' review' + (reviewCount>1?'s':'')) : 'No reviews yet';
-        
+
         // Debug logging
         console.log('Game:', g.title, 'Image URL:', g.imageDataUrl);
         
