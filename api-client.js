@@ -235,6 +235,46 @@ class PRGAPI {
     return data;
   }
 
+  async uploadLeftGif(file) {
+    if (!file) {
+      throw new Error('No GIF file provided');
+    }
+    const formData = new FormData();
+    formData.append('gif', file);
+    const response = await fetch(`${this.baseURL}/site/gif/left`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${this.token}`
+      },
+      body: formData
+    });
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.error || `HTTP ${response.status}`);
+    }
+    return data;
+  }
+
+  async uploadRightGif(file) {
+    if (!file) {
+      throw new Error('No GIF file provided');
+    }
+    const formData = new FormData();
+    formData.append('gif', file);
+    const response = await fetch(`${this.baseURL}/site/gif/right`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${this.token}`
+      },
+      body: formData
+    });
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.error || `HTTP ${response.status}`);
+    }
+    return data;
+  }
+
   async updateGame(id, title, genre, imageFile, description) {
     const formData = new FormData();
     formData.append('title', title);

@@ -76,6 +76,50 @@ router.post('/banner/right', authenticateToken, requireAdmin, upload.single('ban
   }
 });
 
+// Upload left side GIF (admin only)
+router.post('/gif/left', authenticateToken, requireAdmin, upload.single('gif'), handleUploadError, async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ error: 'No GIF uploaded' });
+    }
+
+    const gifUrl = `${config.baseUrl}/uploads/${req.file.filename}`;
+    const db = getDb();
+    await db.collection('site').updateOne(
+      { _id: 'settings' },
+      { $set: { left_gif_url: gifUrl, updated_at: Date.now() } },
+      { upsert: true }
+    );
+
+    res.json({ message: 'Left GIF uploaded', gifUrl });
+  } catch (err) {
+    console.error('Left GIF upload error:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// Upload right side GIF (admin only)
+router.post('/gif/right', authenticateToken, requireAdmin, upload.single('gif'), handleUploadError, async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ error: 'No GIF uploaded' });
+    }
+
+    const gifUrl = `${config.baseUrl}/uploads/${req.file.filename}`;
+    const db = getDb();
+    await db.collection('site').updateOne(
+      { _id: 'settings' },
+      { $set: { right_gif_url: gifUrl, updated_at: Date.now() } },
+      { upsert: true }
+    );
+
+    res.json({ message: 'Right GIF uploaded', gifUrl });
+  } catch (err) {
+    console.error('Right GIF upload error:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 // Get site settings (public)
 router.get('/', async (req, res) => {
   try {
@@ -84,7 +128,9 @@ router.get('/', async (req, res) => {
     const bannerUrl = doc && doc.banner_url ? doc.banner_url : null;
     const leftBannerUrl = doc && doc.left_banner_url ? doc.left_banner_url : null;
     const rightBannerUrl = doc && doc.right_banner_url ? doc.right_banner_url : null;
-    res.json({ bannerUrl, leftBannerUrl, rightBannerUrl });
+    const leftGifUrl = doc && doc.left_gif_url ? doc.left_gif_url : null;
+    const rightGifUrl = doc && doc.right_gif_url ? doc.right_gif_url : null;
+    res.json({ bannerUrl, leftBannerUrl, rightBannerUrl, leftGifUrl, rightGifUrl });
   } catch (err) {
     console.error('Get site error:', err);
     res.status(500).json({ error: 'Internal server error' });

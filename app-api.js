@@ -69,8 +69,26 @@
       if (rightContainer && site && site.rightBannerUrl) {
         rightContainer.style.backgroundImage = `url("${site.rightBannerUrl}")`;
       }
+
+      // Left GIF
+      const leftGif = document.getElementById('left-gif');
+      if (leftGif && site && site.leftGifUrl) {
+        leftGif.src = site.leftGifUrl;
+        leftGif.style.display = 'block';
+      } else if (leftGif) {
+        leftGif.style.display = 'none';
+      }
+
+      // Right GIF
+      const rightGif = document.getElementById('right-gif');
+      if (rightGif && site && site.rightGifUrl) {
+        rightGif.src = site.rightGifUrl;
+        rightGif.style.display = 'block';
+      } else if (rightGif) {
+        rightGif.style.display = 'none';
+      }
     } catch (err) {
-      console.warn('Failed to load side banners', err && err.message);
+      console.warn('Failed to load side banners and GIFs', err && err.message);
     }
   }
 
@@ -698,6 +716,46 @@
     });
   }
 
+  function wireLeftGifUploader() {
+    const uploadBtn = document.getElementById('upload-left-gif-btn');
+    if (!uploadBtn) return;
+    uploadBtn.addEventListener('click', async function(){
+      const form = document.getElementById('left-gif-form');
+      if (!form) return;
+      const input = form.querySelector('input[name="gif"]');
+      if (!input || !input.files || !input.files[0]) { alert('Choose a GIF first'); return; }
+      const file = input.files[0];
+      try {
+        await api.uploadLeftGif(file);
+        form.reset();
+        alert('Left GIF uploaded!');
+        await renderSideBanners();
+      } catch (err) {
+        alert(err.message || 'Failed to upload GIF');
+      }
+    });
+  }
+
+  function wireRightGifUploader() {
+    const uploadBtn = document.getElementById('upload-right-gif-btn');
+    if (!uploadBtn) return;
+    uploadBtn.addEventListener('click', async function(){
+      const form = document.getElementById('right-gif-form');
+      if (!form) return;
+      const input = form.querySelector('input[name="gif"]');
+      if (!input || !input.files || !input.files[0]) { alert('Choose a GIF first'); return; }
+      const file = input.files[0];
+      try {
+        await api.uploadRightGif(file);
+        form.reset();
+        alert('Right GIF uploaded!');
+        await renderSideBanners();
+      } catch (err) {
+        alert(err.message || 'Failed to upload GIF');
+      }
+    });
+  }
+
   function setupSmoothNavigation() {
     // Intercept all internal navigation links
     document.addEventListener('click', function(e) {
@@ -836,6 +894,8 @@
     wireBannerUploader();
     wireLeftBannerUploader();
     wireRightBannerUploader();
+    wireLeftGifUploader();
+    wireRightGifUploader();
 
     // Animated navigation for game cards: play exit animation, then navigate
     document.body.addEventListener('click', function(e){

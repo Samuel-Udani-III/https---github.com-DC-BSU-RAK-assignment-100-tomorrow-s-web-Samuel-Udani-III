@@ -28,9 +28,8 @@ body {
 }
 
 .left-border, .right-border {
-  position: fixed;
+  position: absolute;
   top: 0;
-  bottom: 0;
   width: 280px;
   background: var(--bg);
   border: 1px solid rgba(124, 156, 255, 0.1);
@@ -144,8 +143,20 @@ body {
   background-position: center;
   background-repeat: no-repeat;
   border-radius: var(--radius);
+  margin-top: 70px;
   margin-bottom: 16px;
   border: 1px solid rgba(124, 156, 255, 0.1);
+}
+
+.side-gif {
+  width: 100%;
+  height: auto;
+  max-height: 300px;
+  object-fit: contain;
+  border-radius: var(--radius);
+  margin-bottom: 16px;
+  border: 1px solid rgba(124, 156, 255, 0.1);
+  display: block;
 }
 
 @media (max-width: 1200px) {
