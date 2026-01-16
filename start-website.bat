@@ -2,23 +2,19 @@
 echo Starting P.R.G. Website...
 echo.
 
-echo 1. Starting MongoDB...
+echo Starting all services (MongoDB, Backend, Frontend)...
 docker-compose up -d
-timeout /t 3 /nobreak > nul
-
-echo 2. Starting Backend Server...
-start "PRG Backend" cmd /k "cd server && npm run dev"
-timeout /t 3 /nobreak > nul
-
-echo 3. Frontend Server...
-echo Please start VS Code Live Server:
-echo - Open index.html in VS Code
-echo - Right-click and select "Open with Live Server"
-echo - Or press Ctrl+Shift+P and type "Live Server: Open with Live Server"
 
 echo.
-echo Website will be available at: http://localhost:5500
-echo Backend API at: http://localhost:3001
+echo Waiting for services to start...
+timeout /t 5 /nobreak > nul
+
 echo.
-echo Press any key to continue...
-pause > nul
+echo P.R.G. Website is now running!
+echo Frontend: http://localhost
+echo Backend API: http://localhost:3001
+echo MongoDB: localhost:27017
+echo.
+echo To stop the services, run: docker-compose down
+echo.
+pause
